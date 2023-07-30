@@ -8,7 +8,6 @@ import { useStronghold } from "../../stores/stronghold";
 
 import { useUser } from "../../utils/hooks/useUser";
 import { useSecureStorage } from "../../utils/hooks/useSecureStorage";
-import { info } from "tauri-plugin-log-api";
 
 type FormValues = {
   password: string;
@@ -65,8 +64,6 @@ export default function UnlockScreen() {
       // load private in secure storage
       try {
         const privkey = await load(user.pubkey, data.password);
-        info(JSON.stringify(user));
-        info("privkey " + privkey + " loaded");
         setPrivkey(privkey);
         // redirect to home
         navigate("/", { replace: true });
@@ -138,7 +135,8 @@ export default function UnlockScreen() {
               )}
             </button>
             <Link
-              to="/auth/reset"
+              // to="/auth/reset"
+              to="/"
               className="flex w-full items-center justify-center rounded-lg px-5 py-1 text-sm font-medium opacity-60 transition-all"
             >
               Reset password
