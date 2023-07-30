@@ -11,7 +11,10 @@ import AuthCreateScreen from "./app/auth/create";
 import CreateStep1Screen from "./app/auth/create/step-1";
 import CreateStep2Screen from "./app/auth/create/step-2";
 
+import SpaceScreen from "./app/space";
+
 import Protected from "./shared/protected";
+import AppLayout from "./shared/appLayout";
 import AuthLayout from "./shared/authLayout";
 
 import "./styles.css";
@@ -43,6 +46,15 @@ const router = createBrowserRouter([
       { path: "unlock", element: <UnlockScreen /> },
       { path: "reset", element: <ResetScreen /> },
     ],
+  },
+  {
+    path: "/app",
+    element: (
+      <Protected>
+        <AppLayout />
+      </Protected>
+    ),
+    children: [{ path: "space", element: <SpaceScreen /> }],
   },
   // {
   //   path: "/settings",
