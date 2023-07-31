@@ -10,6 +10,6 @@ pub fn generate_totp(argument: String) -> Result<String, String> {
       Err(_err) => Err("Error generating TOTP".into()),
     }
   } else {
-    Err("Cannot generate TOPT for empty secret".into())
+    Err("Cannot generate TOTP for empty secret".into())
   }
 }

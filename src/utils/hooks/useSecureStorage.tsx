@@ -37,20 +37,9 @@ export function useSecureStorage() {
   };
 
   const generate = async (password: string) => {
-    // await reset();
-
     const stronghold = await Stronghold.load(storagePath, password);
     const client = await getClient(stronghold);
     const vault = client.getVault(vaultName);
-
-    // Testing
-    // const seedLocation = Location.generic(vaultName, "mnemonic");
-    // const mnemonic =
-    //   "tennis advice tower message birth toy memory physical token mother join crouch equip high umbrella combine hollow gain opinion fortune table torch memory toy";
-    // const ret = await vault.recoverBIP39(mnemonic, seedLocation);
-    // const tt = window.btoa(String.fromCharCode(...ret));
-    // console.log("test", tt);
-    // ****
 
     // Generate seed
     const seedLocation = Location.generic(vaultName, "mnemonic");
@@ -71,14 +60,36 @@ export function useSecureStorage() {
     const ed25519 = await vault.getEd25519PublicKey(privkeyLocation);
     const pubkey = window.btoa(String.fromCharCode(...ed25519));
 
-    console.log("mnemonic", seedLocation, mnemonic);
-    console.log("privkey", privkeyLocation, privkey);
-    console.log("pubkey", ed25519, pubkey);
+    return { mnemonic, privkey, pubkey } as GeneratedKeys;
+  };
+
+  const recover = async (password: string, mnemonic: string) => {
+    const stronghold = await Stronghold.load(storagePath, password);
+    const client = await getClient(stronghold);
+    const vault = client.getVault(vaultName);
+
+    // Recover seed
+    const seedLocation = Location.generic(vaultName, "mnemonic");
+    await vault.recoverBIP39(mnemonic, seedLocation);
+
+    // Generate private key
+    const privkeyLocation = Location.generic(vaultName, "slip10");
+    const slip10 = await vault.deriveSLIP10(
+      [0, 0, 0],
+      "Seed",
+      seedLocation,
+      privkeyLocation
+    );
+    const privkey = window.btoa(String.fromCharCode(...slip10));
+
+    // Generate public key
+    const ed25519 = await vault.getEd25519PublicKey(privkeyLocation);
+    const pubkey = window.btoa(String.fromCharCode(...ed25519));
 
     return { mnemonic, privkey, pubkey } as GeneratedKeys;
   };
 
-  return { save, load, reset, generate };
+  return { save, load, reset, generate, recover };
 }
 
 export interface GeneratedKeys {

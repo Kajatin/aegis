@@ -60,27 +60,21 @@ export default function UnlockScreen() {
     }
 
     setLoading(true);
-    if (data.password.length > 11) {
-      // load private in secure storage
-      try {
-        const privkey = await load(user.pubkey, data.password);
-        setPrivkey(privkey);
-        // redirect to home
-        navigate("/", { replace: true });
-      } catch {
-        setLoading(false);
-        setError("password", {
-          type: "custom",
-          message: "Wrong password",
-        });
-      }
-    } else {
-      setLoading(false);
+
+    // load private in secure storage
+    try {
+      const privkey = await load(user.pubkey, data.password);
+      setPrivkey(privkey);
+      // redirect to home
+      navigate("/", { replace: true });
+    } catch {
       setError("password", {
         type: "custom",
-        message: "Password must be at least 12 characters",
+        message: "Wrong password",
       });
     }
+
+    setLoading(false);
   };
 
   return (

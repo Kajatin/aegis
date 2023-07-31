@@ -17,3 +17,12 @@ CREATE TABLE
     value TEXT NOT NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
   );
+
+-- create codes table
+CREATE TABLE
+  codes (
+    id INTEGER NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    code TEXT NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+  );
