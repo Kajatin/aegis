@@ -9,8 +9,9 @@
 extern crate objc;
 
 use tauri::{Manager, WindowEvent};
-use tauri_plugin_log::LogTarget;
 use tauri_plugin_sql::{Migration, MigrationKind};
+
+mod commands;
 
 #[cfg(target_os = "macos")]
 use window_ext::WindowExt;
@@ -48,11 +49,6 @@ fn main() {
                 _ => {}
             }
         })
-        .plugin(
-            tauri_plugin_log::Builder::default()
-                .targets([LogTarget::Stdout, LogTarget::Webview])
-                .build(),
-        )
         .plugin(
             tauri_plugin_sql::Builder::default()
                 .add_migrations(
@@ -94,6 +90,7 @@ fn main() {
             app.emit_all("single-instance", Payload { args: argv, cwd })
                 .unwrap();
         }))
+        .invoke_handler(tauri::generate_handler![commands::generate_totp])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

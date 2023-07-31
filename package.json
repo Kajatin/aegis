@@ -16,7 +16,6 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.45.2",
     "react-router-dom": "^6.14.2",
-    "tauri-plugin-log-api": "github:tauri-apps/tauri-plugin-log",
     "tauri-plugin-sql-api": "github:tauri-apps/tauri-plugin-sql",
     "tauri-plugin-stronghold-api": "github:tauri-apps/tauri-plugin-stronghold#v1",
     "tauri-plugin-upload-api": "github:tauri-apps/tauri-plugin-upload#v1",
