@@ -4,7 +4,7 @@ import { Resolver, useForm } from "react-hook-form";
 
 import { EyeOffIcon, EyeOnIcon, LoaderIcon } from "../../shared/icons";
 
-import { useStronghold } from "../../stores/stronghold";
+import { usePassword } from "../../stores/password";
 
 import { useUser } from "../../utils/hooks/useUser";
 import { useSecureStorage } from "../../utils/hooks/useSecureStorage";
@@ -30,7 +30,7 @@ const resolver: Resolver<FormValues> = async (values) => {
 
 export default function ResetScreen() {
   const navigate = useNavigate();
-  const setPrivkey = useStronghold((state) => state.setPrivkey);
+  const setPassword = usePassword((state) => state.setPassword);
 
   const [loading, setLoading] = useState(false);
   const [passwordInput, setPasswordInput] = useState("password");
@@ -83,7 +83,7 @@ export default function ResetScreen() {
           // save privkey to secure storage
           await save(user.pubkey, user.privkey, data.password);
           // add privkey to state
-          setPrivkey(user.privkey);
+          setPassword(user.privkey);
           // redirect to home
           navigate("/auth/unlock", { replace: true });
         }

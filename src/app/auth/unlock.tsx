@@ -4,9 +4,8 @@ import { Resolver, useForm } from "react-hook-form";
 
 import { EyeOffIcon, EyeOnIcon, LoaderIcon } from "../../shared/icons";
 
-import { useStronghold } from "../../stores/stronghold";
+import { usePassword } from "../../stores/password";
 
-import { useUser } from "../../utils/hooks/useUser";
 import { useSecureStorage } from "../../utils/hooks/useSecureStorage";
 
 type FormValues = {
@@ -29,13 +28,11 @@ const resolver: Resolver<FormValues> = async (values) => {
 
 export default function UnlockScreen() {
   const navigate = useNavigate();
-  const setPrivkey = useStronghold((state) => state.setPrivkey);
+  const { validate } = useSecureStorage();
+  const setPassword = usePassword((state) => state.setPassword);
 
-  const [passwordInput, setPasswordInput] = useState("password");
   const [loading, setLoading] = useState(false);
-
-  const { user } = useUser();
-  const { load } = useSecureStorage();
+  const [passwordInput, setPasswordInput] = useState("password");
 
   // toggle private key
   const showPassword = () => {
@@ -54,23 +51,17 @@ export default function UnlockScreen() {
   } = useForm<FormValues>({ resolver });
 
   const onSubmit = async (data: { [x: string]: string }) => {
-    if (!user) {
-      navigate("/", { replace: true });
-      return;
-    }
-
     setLoading(true);
 
-    // load private in secure storage
     try {
-      const privkey = await load(user.pubkey, data.password);
-      setPrivkey(privkey);
-      // redirect to home
+      await validate(data.password);
+      setPassword(data.password);
       navigate("/", { replace: true });
-    } catch {
+    } catch (e) {
+      console.error(e);
       setError("password", {
         type: "custom",
-        message: "Wrong password",
+        message: "Incorrect password",
       });
     }
 
@@ -129,8 +120,7 @@ export default function UnlockScreen() {
               )}
             </button>
             <Link
-              // to="/auth/reset"
-              to="/"
+              to="/auth/reset"
               className="flex w-full items-center justify-center rounded-lg px-5 py-1 text-sm font-medium opacity-60 transition-all"
             >
               Reset password

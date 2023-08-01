@@ -3,10 +3,10 @@ import { Navigate } from "react-router-dom";
 
 import { LoaderIcon } from "./icons/loader";
 import { useUser } from "../utils/hooks/useUser";
-import { useStronghold } from "../stores/stronghold";
+import { usePassword } from "../stores/password";
 
 export default function Protected({ children }: { children: ReactNode }) {
-  const privkey = useStronghold((state) => state.privkey);
+  const password = usePassword((state) => state.password);
   const { status, user } = useUser();
 
   if (status === "loading") {
@@ -21,7 +21,7 @@ export default function Protected({ children }: { children: ReactNode }) {
     return <Navigate to="/auth/welcome" replace />;
   }
 
-  if (user && !privkey) {
+  if (user && !password) {
     return <Navigate to="/auth/unlock" replace />;
   }
 

@@ -13,6 +13,13 @@ export function useSecureStorage() {
     }
   }
 
+  const persist = async (password: string) => {
+    const stronghold = await Stronghold.load(storagePath, password);
+    const client = await getClient(stronghold);
+    client.getVault(vaultName);
+    return await stronghold.save();
+  };
+
   const save = async (key: string, value: string, password: string) => {
     const stronghold = await Stronghold.load(storagePath, password);
     const client = await getClient(stronghold);
@@ -31,9 +38,20 @@ export function useSecureStorage() {
   };
 
   const reset = async () => {
+    // TODO: Protect against accidental reset -> ask for password
     return await removeFile(storageName, {
       dir: BaseDirectory.AppConfig,
     });
+  };
+
+  const validate = async (password: string) => {
+    const stronghold = await Stronghold.load(storagePath, password);
+    const client = await getClient(stronghold);
+    const vault = client.getVault(vaultName);
+    const privkeyLocation = Location.generic(vaultName, "slip10");
+    const ed25519 = await vault.getEd25519PublicKey(privkeyLocation);
+    const pubkey = window.btoa(String.fromCharCode(...ed25519));
+    return pubkey;
   };
 
   const generate = async (password: string) => {
@@ -59,6 +77,9 @@ export function useSecureStorage() {
     // Generate public key
     const ed25519 = await vault.getEd25519PublicKey(privkeyLocation);
     const pubkey = window.btoa(String.fromCharCode(...ed25519));
+
+    // Save vault
+    await stronghold.save();
 
     return { mnemonic, privkey, pubkey } as GeneratedKeys;
   };
@@ -86,10 +107,13 @@ export function useSecureStorage() {
     const ed25519 = await vault.getEd25519PublicKey(privkeyLocation);
     const pubkey = window.btoa(String.fromCharCode(...ed25519));
 
+    // Save vault
+    await stronghold.save();
+
     return { mnemonic, privkey, pubkey } as GeneratedKeys;
   };
 
-  return { save, load, reset, generate, recover };
+  return { persist, save, load, reset, validate, generate, recover };
 }
 
 export interface GeneratedKeys {
