@@ -1,5 +1,8 @@
 import { platform } from "@tauri-apps/api/os";
 import { Outlet, useNavigate } from "react-router-dom";
+
+import { LockClosedIcon } from "@heroicons/react/24/outline";
+
 import { ArrowLeftIcon } from "./icons/arrowLeft";
 import { ArrowRightIcon } from "./icons/arrowRight";
 
@@ -21,7 +24,7 @@ export default function AuthLayout() {
       <div data-tauri-drag-region className="relative h-10 shrink-0">
         <div
           data-tauri-drag-region
-          className="flex h-full w-full flex-1 items-center px-2"
+          className="flex h-full w-full flex-1 items-center px-2 justify-between"
         >
           <div
             className={`flex h-full items-center gap-2 ${
@@ -45,6 +48,24 @@ export default function AuthLayout() {
               className="group inline-flex h-6 w-6 items-center justify-center rounded-md hover:bg-zinc-900/60"
             >
               <ArrowRightIcon
+                width={16}
+                height={16}
+                className="text-zinc-500 group-hover:text-zinc-300"
+              />
+            </button>
+          </div>
+
+          <div
+            className={`flex h-full items-center gap-2 ${
+              platformName === "darwin" ? "pl-[72px]" : ""
+            }`}
+          >
+            <button
+              disabled={true}
+              type="button"
+              className="group inline-flex h-6 w-6 items-center justify-center rounded-md hover:bg-zinc-900/60"
+            >
+              <LockClosedIcon
                 width={16}
                 height={16}
                 className="text-zinc-500 group-hover:text-zinc-300"

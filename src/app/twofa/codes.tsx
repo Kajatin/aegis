@@ -1,17 +1,21 @@
 import { useEffect, useState } from "react";
-import { LoaderIcon } from "../../shared/icons";
-import { useCodes } from "../../utils/hooks/useCodes";
-import { Code } from "../../utils/types";
+
 import { invoke } from "@tauri-apps/api/tauri";
+
+import { Code } from "../../utils/types";
+import { LoaderIcon } from "../../shared/icons";
+
+import { usePassword } from "../../stores/password";
+import { useCodes } from "../../utils/hooks/useCodes";
 import { useInterval } from "../../utils/hooks/useInterval";
-import { useSecureStorage } from "../../utils/hooks/useSecureStorage";
 
 interface CodeWithTotp extends Code {
   totp: string;
 }
 
 export default function Codes() {
-  const { status, codes } = useCodes("password1234");
+  const password = usePassword((state) => state.password);
+  const { status, codes } = useCodes(password);
 
   const [codesWithTotp, setCodesWithTotp] = useState<CodeWithTotp[] | null>(
     null
@@ -73,7 +77,7 @@ export default function Codes() {
   }
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 w-full">
       {codesWithTotp.map((code) => (
         <CodeItem key={code.id} code={code} />
       ))}
@@ -83,9 +87,12 @@ export default function Codes() {
 
 function CodeItem(props: { code: CodeWithTotp }) {
   return (
-    <div className="flex flex-col gap-2">
-      <div>{props.code.name}</div>
-      <div>{props.code.totp}</div>
+    <div className="flex flex-col p-2 rounded-lg bg-zinc-900/20">
+      <div className="font-medium">{props.code.name}</div>
+      <div className="text-sm font-medium opacity-60">john.doe@example.com</div>
+      <div className="text-2xl font-bold text-emerald-600 mt-1">
+        {props.code.totp}
+      </div>
     </div>
   );
 }

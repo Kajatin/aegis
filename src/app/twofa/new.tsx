@@ -1,11 +1,12 @@
-import { Resolver, useForm } from "react-hook-form";
-import { useUser } from "../../utils/hooks/useUser";
-import { useSecureStorage } from "../../utils/hooks/useSecureStorage";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Resolver, useForm } from "react-hook-form";
+
 import { LoaderIcon } from "../../shared/icons";
-import { invoke } from "@tauri-apps/api/tauri";
+
+import { usePassword } from "../../stores/password";
+
 import { createCode } from "../../utils/storage";
+import { useSecureStorage } from "../../utils/hooks/useSecureStorage";
 
 type FormValues = {
   name: string;
@@ -27,13 +28,10 @@ const resolver: Resolver<FormValues> = async (values) => {
 };
 
 export default function NewCode() {
-  const navigate = useNavigate();
-
-  const { user } = useUser();
   const { save } = useSecureStorage();
+  const password = usePassword((state) => state.password);
 
   const [loading, setLoading] = useState(false);
-  const [code, setCode] = useState<string>("");
 
   const {
     register,
@@ -43,17 +41,12 @@ export default function NewCode() {
   } = useForm<FormValues>({ resolver });
 
   const onSubmit = async (data: { [x: string]: string }) => {
-    if (!user) {
-      navigate("/", { replace: true });
-      return;
-    }
-
     setLoading(true);
 
     if (!data.code || !data.name) {
       setError("code", {
         type: "required",
-        message: "This is required.",
+        message: "This is required",
       });
 
       setLoading(false);
@@ -61,15 +54,13 @@ export default function NewCode() {
     }
 
     const code = await createCode(data.name);
-    await save(code, data.code, "password1234");
+    await save(code, data.code, password);
 
     setLoading(false);
   };
 
   return (
     <div className="flex flex-col gap-4">
-      <div>{code}</div>
-
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
           <span className="text-sm text-red-400">
