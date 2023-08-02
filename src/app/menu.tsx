@@ -12,10 +12,12 @@ export default function Menu() {
       <div className="flex flex-col gap-1">
         <div className="text-sm font-bold uppercase opacity-40">Navigation</div>
         <Link
-          to="/app/twofa"
+          to="/app/authenticator"
           className={
-            "flex flex-row gap-2 p-2 rounded-lg items-center border border-transparent hover:border-current opacity-60 hover:opacity-90 " +
-            (location.pathname === "/app/twofa" && "border-current")
+            "flex flex-row gap-2 p-2 rounded-lg items-center border hover:border-current opacity-60 hover:opacity-90 " +
+            (location.pathname === "/app/authenticator"
+              ? "border-current"
+              : "border-transparent")
           }
         >
           <FingerPrintIcon className="h-6 w-6" />
@@ -25,8 +27,10 @@ export default function Menu() {
         <Link
           to="/app/passwords"
           className={
-            "flex flex-row gap-2 p-2 rounded-lg items-center border border-transparent hover:border-current opacity-60 hover:opacity-90 " +
-            (location.pathname === "/app/passwords" && "border-current")
+            "flex flex-row gap-2 p-2 rounded-lg items-center border hover:border-current opacity-60 hover:opacity-90 " +
+            (location.pathname === "/app/passwords"
+              ? "border-current"
+              : "border-transparent")
           }
         >
           <KeyIcon className="h-6 w-6" />

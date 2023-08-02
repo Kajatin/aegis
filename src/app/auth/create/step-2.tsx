@@ -87,8 +87,8 @@ export default function CreateStep2Screen() {
         <button
           disabled={loading || !keys?.mnemonic}
           className={
-            "flex w-full items-center justify-center rounded-lg px-5 py-3 font-medium bg-emerald-600 transition-all " +
-            (!loading && keys?.mnemonic && "hover:bg-emerald-500")
+            "flex w-full items-center justify-center rounded-lg px-5 py-3 font-medium bg-blue-600 transition-all " +
+            (!loading && keys?.mnemonic && "hover:bg-blue-500")
           }
           onClick={() => submit()}
         >

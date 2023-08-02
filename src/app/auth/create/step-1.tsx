@@ -125,7 +125,7 @@ export default function CreateStep1Screen() {
           <button
             type="submit"
             disabled={!isDirty || !isValid}
-            className="flex w-full items-center justify-center rounded-lg px-5 py-3 font-medium bg-emerald-600 hover:bg-emerald-500 disabled:pointer-events-none disabled:opacity-50 transition-all"
+            className="flex w-full items-center justify-center rounded-lg px-5 py-3 font-medium bg-blue-600 hover:bg-blue-500 disabled:pointer-events-none disabled:opacity-50 transition-all"
           >
             {loading ? (
               <LoaderIcon className="h-6 w-6 animate-spin" />

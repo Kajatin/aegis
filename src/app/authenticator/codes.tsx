@@ -92,9 +92,7 @@ function CodeItem(props: { code: CodeWithTotp }) {
     <div className="flex flex-col p-2 rounded-lg bg-zinc-900/20">
       <div className="font-medium">{code.name}</div>
       <div className="text-sm font-medium opacity-60">john.doe@example.com</div>
-      <div className="text-2xl font-bold text-emerald-600 mt-1">
-        {code.totp}
-      </div>
+      <div className="text-2xl font-bold text-blue-600 mt-1">{code.totp}</div>
     </div>
   );
 }

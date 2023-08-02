@@ -8,7 +8,7 @@ export default function Root() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigate("/app/twofa", { replace: true });
+      navigate("/app/authenticator", { replace: true });
     }, 1200);
 
     return () => clearTimeout(timer);

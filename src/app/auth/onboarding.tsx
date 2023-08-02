@@ -8,7 +8,7 @@ export default function OnboardingScreen() {
       <div className="flex flex-col gap-4 w-full max-w-md">
         <div className="text-center text-xl font-semibold">👋 Welcome</div>
         <button
-          className="flex w-full items-center justify-center rounded-lg px-5 py-3 font-medium bg-emerald-600 hover:bg-emerald-500 transition-all"
+          className="flex w-full items-center justify-center rounded-lg px-5 py-3 font-medium bg-blue-600 hover:bg-blue-500 transition-all"
           onClick={() => navigate("/", { replace: true })}
         >
           Get started

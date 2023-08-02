@@ -16,7 +16,7 @@ export default function WelcomeScreen() {
         <div className="flex flex-col w-fit gap-2 px-4 py-4">
           <Link
             to="/auth/import"
-            className="flex w-80 min-w-fit items-center justify-center rounded-lg px-5 py-3 font-medium bg-emerald-600 hover:bg-emerald-500 transition-all"
+            className="flex w-80 min-w-fit items-center justify-center rounded-lg px-5 py-3 font-medium bg-blue-600 hover:bg-blue-500 transition-all"
           >
             Login with private key
           </Link>
