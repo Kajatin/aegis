@@ -12,6 +12,7 @@ import CreateStep1Screen from "./app/auth/create/step-1";
 import CreateStep2Screen from "./app/auth/create/step-2";
 
 import TwoFAScreen from "./app/twofa";
+import PasswordsScreen from "./app/passwords";
 
 import Protected from "./shared/protected";
 import AppLayout from "./shared/appLayout";
@@ -54,7 +55,10 @@ const router = createBrowserRouter([
         <AppLayout />
       </Protected>
     ),
-    children: [{ path: "twofa", element: <TwoFAScreen /> }],
+    children: [
+      { path: "twofa", element: <TwoFAScreen /> },
+      { path: "passwords", element: <PasswordsScreen /> },
+    ],
   },
   // {
   //   path: "/settings",

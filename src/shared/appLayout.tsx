@@ -43,7 +43,7 @@ export default function AppLayout() {
               <ArrowLeftIcon
                 width={16}
                 height={16}
-                className="text-zinc-500 group-hover:text-zinc-300"
+                className="opacity-60 group-hover:opacity-90"
               />
             </button>
             <button
@@ -54,7 +54,7 @@ export default function AppLayout() {
               <ArrowRightIcon
                 width={16}
                 height={16}
-                className="text-zinc-500 group-hover:text-zinc-300"
+                className="opacity-60 group-hover:opacity-90"
               />
             </button>
           </div>
@@ -75,7 +75,7 @@ export default function AppLayout() {
               <LockOpenIcon
                 width={16}
                 height={16}
-                className="text-zinc-500 group-hover:text-zinc-300"
+                className="opacity-60 group-hover:opacity-90"
               />
             </button>
           </div>

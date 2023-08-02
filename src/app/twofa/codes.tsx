@@ -86,12 +86,14 @@ export default function Codes() {
 }
 
 function CodeItem(props: { code: CodeWithTotp }) {
+  const { code } = props;
+
   return (
     <div className="flex flex-col p-2 rounded-lg bg-zinc-900/20">
-      <div className="font-medium">{props.code.name}</div>
+      <div className="font-medium">{code.name}</div>
       <div className="text-sm font-medium opacity-60">john.doe@example.com</div>
       <div className="text-2xl font-bold text-emerald-600 mt-1">
-        {props.code.totp}
+        {code.totp}
       </div>
     </div>
   );
